@@ -2,9 +2,9 @@ import { Ingredient } from "../ingredient";
 
 export class Recipe {
     constructor(
-        public name, 
-        public description, 
-        public imagePath,
+        public name: String, 
+        public description: String, 
+        public imagePath: String,
         public ingredients: Ingredient[]) {
 
     }
