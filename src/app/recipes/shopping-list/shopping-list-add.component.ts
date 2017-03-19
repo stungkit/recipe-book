@@ -9,7 +9,6 @@ import { ShoppingListService } from './shopping-list.service';
   styleUrls: ['./shopping-list-add.component.css']
 })
 export class ShoppingListAddComponent implements OnInit, OnChanges {
-
   @Input()
   item: Ingredient;
 
@@ -23,6 +22,7 @@ export class ShoppingListAddComponent implements OnInit, OnChanges {
   ngOnChanges(changes): void {
     if (changes.item.currentValue === null) {
       this.isAdd = true;
+      this.item = {name: null, amount: null};
     } else {
       this.isAdd = false;
     }
