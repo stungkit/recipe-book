@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 import { Ingredient } from '../../ingredient';
 import { ShoppingListService } from './shopping-list.service';
@@ -11,6 +11,9 @@ import { ShoppingListService } from './shopping-list.service';
 export class ShoppingListAddComponent implements OnInit, OnChanges {
   @Input()
   item: Ingredient;
+
+  @Output()
+  cleared = new EventEmitter();
 
   isAdd = true;
 
@@ -32,10 +35,21 @@ export class ShoppingListAddComponent implements OnInit, OnChanges {
     const newIngredient = new Ingredient(ingredient.name, ingredient.amount);
     if (!this.isAdd) {
       this.sls.editItem(this.item, newIngredient);
+      this.onClear();
     } else {
       this.item = newIngredient;
       this.sls.addItem(this.item);
     }
+  }
+
+  onDelete() {
+    this.sls.deleteItem(this.item);
+    this.onClear();
+  }
+
+  onClear() {
+    this.isAdd = true;
+    this.cleared.emit(null);
   }
 
 }
