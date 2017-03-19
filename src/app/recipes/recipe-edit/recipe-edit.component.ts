@@ -32,6 +32,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
           this.isNew = true;
           this.recipe = null;
         }
+        this.initForm();
       }
     );
   }
@@ -40,13 +41,13 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private initForm(isNew: boolean) {
+  private initForm() {
     let recipeName = '';
     let recipeImageUrl = '';
     let recipeContent = '';
     const recipeIngredients: FormArray = new FormArray([]);
 
-    if (!isNew) {
+    if (!this.isNew) {
       for (let i = 0; i < this.recipe.ingredients.length; i++) {
         recipeIngredients.push(
           new FormGroup({
@@ -62,12 +63,11 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       recipeImageUrl = this.recipe.imagePath;
       recipeContent = this.recipe.description;
     }
-
     this.recipeForm = this.formBuilder.group({
-      name: [recipeName, Validators.required],
-      imagePath: [recipeImageUrl, Validators.required],
-      description: [recipeContent, Validators.required],
-      ingredients: [recipeIngredients]
+      'name': [recipeName, Validators.required],
+      'imagePath': [recipeImageUrl, Validators.required],
+      'description': [recipeContent, Validators.required],
+      'ingredients': recipeIngredients
     });
   }
 
