@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Recipe } from './recipe';
 import { Ingredient } from '../ingredient';
-import { Headers, Http, Response } from "@angular/http";
-import "rxjs/Rx";
+import { Headers, Http, Response } from '@angular/http';
+import 'rxjs/Rx';
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new EventEmitter<Recipe[]>();
+
   recipes: Recipe[] = [
     new Recipe('Berserk', 'Guts', 'http://vignette1.wikia.nocookie.net/berserk/images/8/8c/Berserker_Armour_Version_2.png/revision/latest?cb=20120517182924', [
       new Ingredient('Guts!', 50),
@@ -45,7 +47,7 @@ export class RecipeService {
     });
     return this.http.put('https://recipebook-f3f5b.firebaseio.com/recipes.json', body, {
       'headers': headers
-    })
+    });
   }
 
   fetchData() {
@@ -54,7 +56,9 @@ export class RecipeService {
       .subscribe(
         (data: Recipe[]) => {
           this.recipes = data;
+          this.recipesChanged.emit(this.recipes);
         }
       );
   }
+
 }
