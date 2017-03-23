@@ -7,5 +7,4 @@ import { HeaderComponent } from './header.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
 }
